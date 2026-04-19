@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import os
 from dotenv import load_dotenv
 from google import genai
+from hd import search
 
 # Load environment variables from .env
 load_dotenv()
@@ -27,6 +28,7 @@ def ask():
     user_question = request.form['question']
     conversation_history = request.form.get('history', '[]')
     
+    context = search(user_question)
     # Build context from conversation history
     history_text = ""
     if conversation_history and conversation_history != '[]':
@@ -39,7 +41,8 @@ def ask():
             else:
                 history_text += f"Assistant: {msg['content']}\n"
     
-    details = f"You are an educator that is teaching the user more about deep-sea topics. Answer the question: {user_question}. For testing purposes keep it very blunt to a few word responses.{history_text}"
+    details = f"""You are an educator teaching about deep-sea topics. Use this knowledge base context to answer accurately:{context} 
+    Answer the question: {user_question}.{history_text}"""
 
     response = client.models.generate_content(
         model=model_name,
