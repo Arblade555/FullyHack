@@ -67,14 +67,35 @@ export interface VerifiedResponse {
   };
 }
 
-export interface RawResponse {
-  answer: string;
+/** Which provider a given raw answer came from. */
+export type RawProvider = "anthropic" | "openai" | "google";
+
+/**
+ * One raw (unsourced, unverified) answer from a single frontier model.
+ * The demo shows three of these side-by-side to make the point that the
+ * verification failure mode is shared across providers, not a Claude-specific
+ * quirk.
+ */
+export interface RawAnswer {
+  provider: RawProvider;
+  /** Human-readable model label shown in the UI (e.g. "gpt-4o (no retrieval)"). */
   model: string;
+  answer: string;
+  /** "ok" means answer is usable; "error" means render a dimmed unavailable card. */
+  status: "ok" | "error";
+  /** Present when status === "error"; truncated for display. */
+  error?: string;
+  /** Wall-clock time in ms, for the demo-time latency badge. */
+  latency_ms: number;
 }
+
+/** @deprecated use RawAnswer[]. Kept as a type alias for any leftover call sites. */
+export type RawResponse = RawAnswer;
 
 export interface ScanResult {
   query: string;
-  raw: RawResponse;
+  /** Ordered [Anthropic, OpenAI, Google]. Render in this order for consistency. */
+  raw: RawAnswer[];
   verified: VerifiedResponse;
   /** ISO-8601 timestamp. */
   timestamp: string;

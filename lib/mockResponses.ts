@@ -8,11 +8,32 @@ const DEEPEST_FISH: ScanResult = {
   query: "What is the deepest fish ever recorded?",
   timestamp: new Date("2026-04-18T12:00:00Z").toISOString(),
   cached: true,
-  raw: {
-    model: "claude-sonnet-4-6 (raw, no retrieval)",
-    answer:
-      "The deepest fish ever recorded is the Mariana snailfish (Pseudoliparis swirei), filmed at approximately 8,178 meters in the Mariana Trench in 2014. It lives under roughly 800 atmospheres of pressure and has a gelatinous body adapted to extreme depth.",
-  },
+  raw: [
+    {
+      provider: "anthropic",
+      model: "claude-sonnet-4-6 (no retrieval)",
+      answer:
+        "The deepest fish ever recorded is the Mariana snailfish (Pseudoliparis swirei), filmed at approximately 8,178 meters in the Mariana Trench in 2014. It lives under roughly 800 atmospheres of pressure and has a gelatinous body adapted to extreme depth.",
+      status: "ok",
+      latency_ms: 1240,
+    },
+    {
+      provider: "openai",
+      model: "gpt-4o (no retrieval)",
+      answer:
+        "The deepest fish on record is the Mariana snailfish, Pseudoliparis swirei, observed at 8,178 m in the Mariana Trench in 2014. Its translucent, gelatinous body withstands nearly 800 atmospheres of pressure, and it feeds on amphipods and other small crustaceans.",
+      status: "ok",
+      latency_ms: 980,
+    },
+    {
+      provider: "google",
+      model: "gemini-2.0-flash (no retrieval)",
+      answer:
+        "The Mariana snailfish (Pseudoliparis swirei) holds the deepest-fish record, documented at 8,178 meters in the Mariana Trench by a 2014 University of Hawaii and University of Aberdeen expedition. Snailfish adapt to hadal depths through gelatinous tissues and trimethylamine oxide, which stabilizes proteins under extreme pressure.",
+      status: "ok",
+      latency_ms: 720,
+    },
+  ],
   verified: {
     synthesis:
       "The current record is an unidentified Pseudoliparis snailfish filmed at 8,336 m in the Izu-Ogasawara Trench off Japan in 2023, surpassing the previous 8,178 m Mariana snailfish record from 2014. Both records came from baited landers deployed by teams led by the University of Western Australia and Tokyo University of Marine Science and Technology.",
@@ -97,11 +118,32 @@ const ARCTIC_VENTS: ScanResult = {
   query: "Are there hydrothermal vents under Arctic ice?",
   timestamp: new Date("2026-04-18T12:00:00Z").toISOString(),
   cached: true,
-  raw: {
-    model: "claude-sonnet-4-6 (raw, no retrieval)",
-    answer:
-      "Hydrothermal vents are generally associated with mid-ocean ridges in the Pacific and Atlantic. It is unlikely that active hydrothermal vents exist under permanent Arctic sea ice.",
-  },
+  raw: [
+    {
+      provider: "anthropic",
+      model: "claude-sonnet-4-6 (no retrieval)",
+      answer:
+        "Hydrothermal vents are generally associated with mid-ocean ridges in the Pacific and Atlantic. It is unlikely that active hydrothermal vents exist under permanent Arctic sea ice.",
+      status: "ok",
+      latency_ms: 1180,
+    },
+    {
+      provider: "openai",
+      model: "gpt-4o (no retrieval)",
+      answer:
+        "Most known hydrothermal vent systems are concentrated along mid-ocean ridges in the Pacific and Atlantic. While the Arctic Ocean has the ultraslow-spreading Gakkel Ridge, active venting beneath permanent sea ice has not been directly confirmed.",
+      status: "ok",
+      latency_ms: 940,
+    },
+    {
+      provider: "google",
+      model: "gemini-2.0-flash (no retrieval)",
+      answer:
+        "Hydrothermal vents typically occur at mid-ocean ridges, particularly in the Pacific and along the Mid-Atlantic Ridge. Direct observation under permanent Arctic sea ice has been limited, and active venting in those conditions is generally considered unconfirmed.",
+      status: "ok",
+      latency_ms: 690,
+    },
+  ],
   verified: {
     synthesis:
       "Yes. Active hydrothermal vents were confirmed on the ultraslow-spreading Gakkel Ridge beneath Arctic sea ice, first visually imaged in 2008 and further surveyed on the Aurora vent field in 2014 and 2021. Multiple vent-endemic species have been cataloged, though biomass is lower than at Pacific vent sites.",
@@ -189,11 +231,32 @@ const HYDROTHERMAL_ORGANISMS: ScanResult = {
   query: "What organisms live near hydrothermal vents?",
   timestamp: new Date("2026-04-18T12:00:00Z").toISOString(),
   cached: true,
-  raw: {
-    model: "claude-sonnet-4-6 (raw, no retrieval)",
-    answer:
-      "Hydrothermal vent ecosystems host giant tube worms (Riftia pachyptila), vent clams (Calyptogena), vent mussels, alvinellid polychaetes, and chemosynthetic bacteria that form the base of the food web by oxidizing hydrogen sulfide.",
-  },
+  raw: [
+    {
+      provider: "anthropic",
+      model: "claude-sonnet-4-6 (no retrieval)",
+      answer:
+        "Hydrothermal vent ecosystems host giant tube worms (Riftia pachyptila), vent clams (Calyptogena), vent mussels, alvinellid polychaetes, and chemosynthetic bacteria that form the base of the food web by oxidizing hydrogen sulfide.",
+      status: "ok",
+      latency_ms: 1320,
+    },
+    {
+      provider: "openai",
+      model: "gpt-4o (no retrieval)",
+      answer:
+        "Hydrothermal vent communities are dominated by chemosynthetic bacteria that oxidize hydrogen sulfide, supporting tube worms (Riftia pachyptila), giant clams, vent mussels, vent shrimp (Rimicaris exoculata), and heat-tolerant Pompeii worms (Alvinella).",
+      status: "ok",
+      latency_ms: 1020,
+    },
+    {
+      provider: "google",
+      model: "gemini-2.0-flash (no retrieval)",
+      answer:
+        "Vent ecosystems include giant tube worms, mussels, clams, vent crabs, and Pompeii worms, all reliant on chemosynthetic microbial symbionts that oxidize sulfide compounds emerging from the seafloor.",
+      status: "ok",
+      latency_ms: 710,
+    },
+  ],
   verified: {
     synthesis:
       "Vent ecosystems depend on chemosynthetic microbial communities that oxidize H₂S or methane. Dominant metazoans vary by region: Pacific (East Pacific Rise) sites are dominated by Riftia pachyptila tube worms, Calyptogena clams, and Bathymodiolus mussels; Atlantic (Mid-Atlantic Ridge) sites are dominated by Rimicaris exoculata shrimp swarms; Indian Ocean sites host scaly-foot gastropods (Chrysomallon squamiferum). Corpus sources agree on the chemosynthetic foundation but differ on which fauna they emphasize.",

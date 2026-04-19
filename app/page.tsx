@@ -21,6 +21,7 @@ import type {
   Gap,
   Conflict,
   DecayFlag,
+  RawAnswer,
 } from "@/lib/types";
 
 export default function HomePage() {
@@ -92,7 +93,7 @@ export default function HomePage() {
         <>
           <StatsBar verified={result.verified} cached={result.cached} />
           <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <RawColumn answer={result.raw.answer} model={result.raw.model} />
+            <RawStack raws={result.raw} />
             <VerifiedColumn verified={result.verified} />
           </div>
         </>
@@ -250,24 +251,112 @@ function Divider() {
   return <span className="hidden h-8 w-px bg-abyss-500 sm:inline-block" />;
 }
 
-/* ---------- Raw column ---------- */
+/* ---------- Raw stack (multi-model) ---------- */
 
-function RawColumn({ answer, model }: { answer: string; model: string }) {
+const PROVIDER_LABELS: Record<RawAnswer["provider"], string> = {
+  anthropic: "Claude",
+  openai: "GPT",
+  google: "Gemini",
+};
+
+function RawStack({ raws }: { raws: RawAnswer[] }) {
   return (
-    <div className="rounded-xl border border-abyss-600 bg-abyss-700 p-6 shadow-sm">
+    <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-abyss-200">
           <Sparkles className="h-4 w-4" />
           <h2 className="text-sm font-semibold uppercase tracking-wider">
-            Raw LLM
+            Raw LLMs · {raws.length} frontier models
           </h2>
         </div>
-        <span className="text-[10px] text-abyss-400">{model}</span>
+        <span className="text-[10px] uppercase tracking-wider text-abyss-400">
+          No retrieval
+        </span>
       </div>
-      <p className="mt-4 text-abyss-50 leading-relaxed">{answer}</p>
-      <div className="mt-6 border-t border-dashed border-abyss-500 pt-3 text-xs text-abyss-300">
-        No sources. No conflict detection. No recency check.
+      {raws.map((r) => (
+        <RawCard key={r.provider} raw={r} />
+      ))}
+      <div className="mt-1 border-t border-dashed border-abyss-500 pt-3 text-xs text-abyss-300">
+        No sources. No conflict detection. No recency check. Same blind spots across providers.
       </div>
+    </div>
+  );
+}
+
+/**
+ * Classify a raw provider error into a calm human-readable reason. The full
+ * technical message is preserved in the surrounding `title` attribute so it's
+ * still inspectable on hover, but it never bleeds into the demo UI.
+ */
+function friendlyErrorReason(error: string | undefined): string {
+  if (!error) return "Provider currently unavailable.";
+  const e = error.toLowerCase();
+  if (e.includes("429") || e.includes("quota") || e.includes("rate limit")) {
+    return "Free-tier quota exhausted — provider rate-limited.";
+  }
+  if (e.includes("timed out") || e.includes("timeout")) {
+    return "Request timed out — provider slow to respond.";
+  }
+  if (e.includes("no key") || e.includes("api_key not set")) {
+    return "API key not configured for this provider.";
+  }
+  if (e.includes("401") || e.includes("403") || e.includes("unauthorized") || e.includes("forbidden")) {
+    return "Authentication failed for this provider.";
+  }
+  if (e.includes("500") || e.includes("502") || e.includes("503") || e.includes("504")) {
+    return "Provider returned a server error.";
+  }
+  return "Provider currently unavailable.";
+}
+
+function RawCard({ raw }: { raw: RawAnswer }) {
+  const label = PROVIDER_LABELS[raw.provider];
+  const isError = raw.status === "error";
+  return (
+    <div
+      className={clsx(
+        "rounded-xl border p-4 shadow-sm transition",
+        isError
+          ? "border-abyss-700 bg-abyss-800/60 opacity-75"
+          : "border-abyss-600 bg-abyss-700",
+      )}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <span
+            className={clsx(
+              "rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+              raw.provider === "anthropic"
+                ? "border-abyss-400/50 bg-abyss-500/20 text-abyss-100"
+                : raw.provider === "openai"
+                  ? "border-emerald-400/50 bg-emerald-400/15 text-emerald-200"
+                  : "border-kelp-400/50 bg-kelp-400/15 text-kelp-200",
+            )}
+          >
+            {label}
+          </span>
+          <span className="text-[10px] text-abyss-400">{raw.model}</span>
+        </div>
+        {isError ? (
+          <span className="rounded-full border border-coral-400/50 bg-coral-400/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-coral-200">
+            Unavailable
+          </span>
+        ) : raw.latency_ms > 0 ? (
+          <span className="text-[10px] tabular-nums text-abyss-400">
+            {(raw.latency_ms / 1000).toFixed(1)}s
+          </span>
+        ) : null}
+      </div>
+      {isError ? (
+        <p
+          className="mt-3 text-sm text-abyss-300 leading-relaxed"
+          title={raw.error || undefined}
+        >
+          {friendlyErrorReason(raw.error)}
+        </p>
+      ) : (
+        <p className="mt-3 text-sm text-abyss-50 leading-relaxed">{raw.answer}</p>
+      )}
     </div>
   );
 }
@@ -613,9 +702,9 @@ function EmptyState() {
   return (
     <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
       <PreviewCard
-        title="Raw LLM"
-        subtitle="What you'd get from a bare call to Claude"
-        body="A fluent paragraph. No sources. No way to tell what's stale or contested."
+        title="Raw LLMs"
+        subtitle="What you'd get from bare calls to Claude, GPT, and Gemini"
+        body="Three fluent paragraphs from three frontier models. No sources. Same blind spots — no way to tell what's stale or contested."
         muted
       />
       <PreviewCard

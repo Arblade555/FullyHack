@@ -23,12 +23,19 @@ const config: Config = {
           950: "#030b18",
         },
         // Warm accent that pops against dark blues — used for conflict / decay flags.
+        // 100/200/300 shades added for readable text on dark surfaces.
         kelp: {
+          100: "#fdecc3",
+          200: "#fbe19a",
+          300: "#f8cd71",
           400: "#f5b544",
           500: "#e89627",
           600: "#c97914",
         },
         coral: {
+          100: "#fcd7d1",
+          200: "#f9b8b0",
+          300: "#f5978b",
           400: "#f17a6b",
           500: "#d95548",
           600: "#b73a2f",

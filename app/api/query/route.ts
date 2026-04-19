@@ -6,12 +6,13 @@ import {
   humandeltaLogAudit,
   humandeltaSearch,
 } from "@/lib/humandelta";
-import { callRaw, callJudge, hasApiKey } from "@/lib/anthropic";
+import { callJudge, hasApiKey } from "@/lib/anthropic";
+import { fanOutRaw } from "@/lib/rawModels";
 import {
   buildScoreBreakdown,
   computeValidationScore,
 } from "@/lib/score";
-import type { ScanResult, Source } from "@/lib/types";
+import type { RawAnswer, ScanResult, Source } from "@/lib/types";
 
 /**
  * Retrieval dispatch. Default path hits Human Delta. If the HD key is not
@@ -86,13 +87,13 @@ export async function POST(req: NextRequest) {
     // honest than asking the judge to hallucinate reasoning over empty context.
     if (sources.length === 0) {
       console.log(`[/api/query] ${backend} retrieval returned 0 sources for query: "${query}"`);
-      const raw = await callRaw(query);
+      const raw = await fanOutRaw(query);
       return NextResponse.json(makeEmptyCorpusResult(query, raw));
     }
     console.log(`[/api/query] ${backend} retrieval returned ${sources.length} sources for query: "${query}"`);
 
     const [raw, judge] = await Promise.all([
-      callRaw(query),
+      fanOutRaw(query),
       callJudge(query, sources),
     ]);
 
@@ -173,7 +174,7 @@ export async function POST(req: NextRequest) {
 
 function makeEmptyCorpusResult(
   query: string,
-  raw: { answer: string; model: string },
+  raw: RawAnswer[],
 ): ScanResult {
   return {
     query,
@@ -219,10 +220,32 @@ function makePlaceholder(query: string, reason: "missing-api-key"): ScanResult {
     query,
     timestamp: new Date().toISOString(),
     cached: false,
-    raw: {
-      model: "unavailable",
-      answer: message,
-    },
+    raw: [
+      {
+        provider: "anthropic",
+        model: "unavailable",
+        answer: message,
+        status: "error",
+        error: reason,
+        latency_ms: 0,
+      },
+      {
+        provider: "openai",
+        model: "unavailable",
+        answer: message,
+        status: "error",
+        error: reason,
+        latency_ms: 0,
+      },
+      {
+        provider: "google",
+        model: "unavailable",
+        answer: message,
+        status: "error",
+        error: reason,
+        latency_ms: 0,
+      },
+    ],
     verified: {
       synthesis: message,
       gaps: [

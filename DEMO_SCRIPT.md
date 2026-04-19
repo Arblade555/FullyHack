@@ -12,26 +12,33 @@ Deck: `deepdelta-demo.pptx` (3 slides, 16:9)
 3. Browser window sized so the score + sources + gaps panel are all visible
 4. Pre-validated "deepest fish" query already cached (instant render)
 5. HUMANDELTA_API_KEY in `.env.local`; `/source/` confirmed via `npm run check:corpus`
+6. OPENAI_API_KEY + GOOGLE_API_KEY in `.env.local`; raw answers prewarmed via `npm run prewarm` (writes `.cache/raw-answers.json` — zero live-API dependency on the left column). All three providers (Claude, GPT-4o, Gemini 2.5 Flash) should show `✅` in the prewarm output
 
 ---
 
 ## Script
 
-### 0:00 — 0:12 · Hook (slide 1 up)
+### 0:00 — 0:15 · Hook (slide 1 up)
 
 > Most RAG demos cherry-pick. Three clean questions, three polished answers, everyone claps.
 >
-> We built a scorer that tells you when the answer isn't actually grounded — even when the words sound right. Let me show you three queries we just ran.
+> We built a scorer that tells you when the answer isn't actually grounded — even when the words sound right. And we run every question through three frontier models in parallel — Claude, GPT-4o, and Gemini — so you can see the blind spots are *shared*, not Claude-specific.
+>
+> Let me show you three queries we just ran.
 
 Pause. Click to slide 3 briefly to flash the 87/78/55 grid. Flip back.
 
-### 0:12 — 0:35 · Test 3 first (cucumber — the gap) · LIVE in browser
+### 0:15 — 0:38 · Test 3 first (cucumber — the gap) · LIVE in browser
 
 Type into DeepDelta: **"Where do giant cucumbers live?"**
 
 > This one is a trap. There are no giant cucumbers in our corpus. The tangential hits are just "sea cucumber" mentions inside unrelated deep-sea articles.
 
-Let the answer render. Point at the score.
+Let the answer render. Gesture at the left column first.
+
+> Look at the left side. Claude, GPT-4o, and Gemini all confidently answer. None of them flag that the question is unanswerable. That's the failure mode every frontier LLM shares.
+
+Now point at the score.
 
 > **55%.** Down from the 80s on the other queries. Agreement dropped to 50, self-confidence to 30, and the system raised a high-impact gap: "no source defines giant cucumbers as a species." It didn't fabricate. That's the whole point.
 
@@ -93,3 +100,6 @@ Flip to slide 3.
 
 **"How do you handle adversarial queries?"**
 > Same pipeline. The cucumber query is the proof — no special branch, no hard-coded refusal. The judge just returns a low score because the sources don't directly support the answer.
+
+**"What happens if one of the raw models is down?"**
+> Each provider call is independent and errors are caught per-provider. A failed provider renders as a dimmed "Unavailable" card with a calm reason — rate-limited, auth, timeout, etc. — and the rest of the pipeline continues. The verified column is unaffected because it runs through Claude with retrieval, which is a separate call path. So the demo degrades gracefully instead of crashing.

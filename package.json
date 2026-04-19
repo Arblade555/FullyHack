@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "index:corpus": "tsx scripts/index-corpus.ts",
-    "check:corpus": "tsx scripts/check-corpus.ts"
+    "check:corpus": "tsx scripts/check-corpus.ts",
+    "prewarm": "tsx scripts/prewarm-raw.ts",
+    "test:gemini": "tsx scripts/test-gemini.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",
