@@ -1,6 +1,6 @@
 # DeepDelta
 
-**Launch AI you can trust — for deep-sea knowledge.**
+**Launch AI you can trust for deep-sea knowledge.**
 
 **Live demo:** [deepdelta.vercel.app](https://deepdelta.vercel.app/)
 
@@ -95,7 +95,7 @@ deepdelta-demo.pptx     3-slide pitch deck (Hook · Architecture · Results)
 
 ## Sponsor framing
 
-Built for the **Human Delta** track of FullyHacks. Language and structure intentionally mirror the Human Delta framework: *Surface → Structure → Scale → Learn*. Gaps, conflicts, and decay are Human Delta's own three categories — we adopt them verbatim because they're exactly the right categories.
+Built for the **Human Delta** sponsor track of FullyHacks. Language and structure intentionally mirror the Human Delta framework: *Surface → Structure → Scale → Learn*. Gaps, conflicts, and decay are Human Delta's own three categories — we adopt them verbatim because they're exactly the right categories.
 
 ## License
 
