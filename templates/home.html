@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Home - DeepSea Verified AI Copilot{% endblock %}
+
+{% block content %}
+<div class="home-page">
+    <h1>Welcome to DeepSea Verified AI Copilot</h1>
+    <p>Explore the depths of the ocean with trustworthy, verified information about deep-sea topics.</p>
+    
+    <div class="features">
+        <div class="feature-card">
+            <h3>🌊 Structured Responses</h3>
+            <p>Get verified answers with sources and confidence scores.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Conflict Detection</h3>
+            <p>Identify disagreements between data sources automatically.</p>
+        </div>
+        <div class="feature-card">
+            <h3>✅ Transparency</h3>
+            <p>See exactly where information comes from.</p>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>Ready to explore?</h2>
+        <a href="{{ url_for('chat') }}" class="cta-button">Start Chatting</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Chat - DeepSea Verified AI Copilot{% endblock %}
+
+{% block content %}
+<div class="chat-page">
+    <div class="chat-container">
+        <!-- Messages Display Area -->
+        <div id="messages-container" class="messages-container">
+            <div class="welcome-message">
+                <h2>Welcome to DeepSea Chat</h2>
+                <p>Ask deep-sea related questions and get verified answers!</p>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <form id="question-form" class="input-area">
+            <div class="input-wrapper">
+                <input type="text" id="question" name="question" placeholder="Ask a deep-sea question..." required>
+                <button type="submit" class="send-button">Send</button>
+            </div>
+        </form>
+
+        <!-- Clear History Button -->
+        <div class="controls">
+            <button id="clear-history-btn" class="clear-btn">Clear History</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const messagesContainer = document.getElementById('messages-container');
+    const questionForm = document.getElementById('question-form');
+    const questionInput = document.getElementById('question');
+    const clearBtn = document.getElementById('clear-history-btn');
+
+    // Load conversation history from localStorage
+    function loadConversationHistory() {
+        const history = JSON.parse(localStorage.getItem('deepseaHistory') || '[]');
+        messagesContainer.innerHTML = '';
+        
+        if (history.length === 0) {
+            messagesContainer.innerHTML = `
+                <div class="welcome-message">
+                    <h2>Welcome to DeepSea Chat</h2>
+                    <p>Ask deep-sea related questions and get verified answers!</p>
+                </div>
+            `;
+        } else {
+            history.forEach(msg => {
+                displayMessage(msg.type, msg.content, msg.timestamp, false);
+            });
+        }
+        
+        // Scroll to bottom
+        setTimeout(() => {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }, 100);
+    }
+
+    // Display a message in the chat
+    function displayMessage(type, content, timestamp = new Date().toLocaleTimeString(), shouldScroll = true) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        
+        const timeStr = typeof timestamp === 'string' ? timestamp : new Date(timestamp).toLocaleTimeString();
+        
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <p>${content}</p>
+                <span class="timestamp">${timeStr}</span>
+            </div>
+        `;
+        
+        messagesContainer.appendChild(messageDiv);
+        
+        if (shouldScroll) {
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 100);
+        }
+    }
+
+    // Save message to localStorage
+    function saveMessage(type, content) {
+        const history = JSON.parse(localStorage.getItem('deepseaHistory') || '[]');
+        history.push({
+            type: type,
+            content: content,
+            timestamp: new Date().toLocaleTimeString()
+        });
+        localStorage.setItem('deepseaHistory', JSON.stringify(history));
+    }
+
+    // Handle form submission
+    questionForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const question = questionInput.value.trim();
+        
+        if (!question) return;
+
+        // Remove welcome message if it exists
+        const welcomeMsg = document.querySelector('.welcome-message');
+        if (welcomeMsg) welcomeMsg.remove();
+
+        // Display user message
+        displayMessage('user', question);
+        saveMessage('user', question);
+
+        // Clear input
+        questionInput.value = '';
+
+        // Show loading state
+        displayMessage('assistant', 'Loading...', new Date().toLocaleTimeString());
+
+        // Send request to backend
+        const formData = new FormData();
+        formData.append('question', question);
+        
+        // Include only the last 10 messages from conversation history
+        const history = JSON.parse(localStorage.getItem('deepseaHistory') || '[]');
+        const limitedHistory = history.slice(-10);
+        formData.append('history', JSON.stringify(limitedHistory.slice(0, -1)));
+        
+        fetch('/ask', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Remove the loading message
+            const lastMessage = messagesContainer.lastChild;
+            if (lastMessage && lastMessage.querySelector('p').textContent === 'Loading...') {
+                lastMessage.remove();
+            }
+            
+            // Display assistant response
+            displayMessage('assistant', data.response);
+            saveMessage('assistant', data.response);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const lastMessage = messagesContainer.lastChild;
+            if (lastMessage && lastMessage.querySelector('p').textContent === 'Loading...') {
+                lastMessage.remove();
+            }
+            displayMessage('assistant', 'Error: Could not get response');
+        });
+    });
+
+    // Clear history
+    clearBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear all conversation history?')) {
+            localStorage.removeItem('deepseaHistory');
+            loadConversationHistory();
+        }
+    });
+
+    // Load history on page load
+    window.addEventListener('load', loadConversationHistory);
+</script>
+{% endblock %}
