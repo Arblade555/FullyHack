@@ -72,7 +72,7 @@ export default function HomePage() {
                 setQuery(q);
                 runScan(q);
               }}
-              className="rounded-full border border-abyss-200 bg-white/60 px-3 py-1 text-xs text-abyss-700 transition hover:border-abyss-400 hover:bg-white"
+              className="rounded-full border border-abyss-600 bg-abyss-700 px-3 py-1 text-xs text-abyss-100 transition hover:border-abyss-400 hover:bg-abyss-600"
             >
               {q}
             </button>
@@ -81,7 +81,7 @@ export default function HomePage() {
       </section>
 
       {error ? (
-        <div className="mt-8 rounded-lg border border-coral-500/30 bg-coral-400/10 p-4 text-sm text-coral-600">
+        <div className="mt-8 rounded-lg border border-coral-500/30 bg-coral-400/10 p-4 text-sm text-coral-300">
           Scan failed: {error}
         </div>
       ) : null}
@@ -110,21 +110,21 @@ export default function HomePage() {
 function Header() {
   return (
     <header>
-      <div className="flex items-center gap-2 text-abyss-700">
+      <div className="flex items-center gap-2 text-abyss-100">
         <Waves className="h-5 w-5" />
         <span className="text-sm font-semibold tracking-wide">DEEPDELTA</span>
-        <span className="ml-2 rounded-full bg-abyss-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-abyss-600">
+        <span className="ml-2 rounded-full bg-abyss-700 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-abyss-200">
           Hackathon build
         </span>
       </div>
-      <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-abyss-900 sm:text-4xl">
+      <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-abyss-50 sm:text-4xl">
         Launch AI you can trust — for deep-sea knowledge.
       </h1>
-      <p className="mt-3 max-w-2xl text-abyss-700">
+      <p className="mt-3 max-w-2xl text-abyss-100">
         A verification layer that exposes the{" "}
-        <span className="font-medium text-abyss-900">gaps</span>,{" "}
-        <span className="font-medium text-abyss-900">conflicts</span>, and{" "}
-        <span className="font-medium text-abyss-900">decay</span> invisible to
+        <span className="font-medium text-abyss-50">gaps</span>,{" "}
+        <span className="font-medium text-abyss-50">conflicts</span>, and{" "}
+        <span className="font-medium text-abyss-50">decay</span> invisible to
         a raw LLM. Built on the Human Delta playbook, applied to one of the most
         fragmented knowledge domains on Earth.
       </p>
@@ -151,19 +151,19 @@ function QueryBox({
         e.preventDefault();
         onSubmit();
       }}
-      className="flex items-center gap-3 rounded-xl border border-abyss-200 bg-white p-2 shadow-sm focus-within:border-abyss-500"
+      className="flex items-center gap-3 rounded-xl border border-abyss-600 bg-abyss-700 p-2 shadow-sm focus-within:border-abyss-300"
     >
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Ask a deep-sea question — e.g. 'What is the deepest fish ever recorded?'"
-        className="w-full bg-transparent px-3 py-2 text-abyss-900 outline-none placeholder:text-abyss-400"
+        className="w-full bg-transparent px-3 py-2 text-abyss-50 outline-none placeholder:text-abyss-500"
       />
       <button
         type="submit"
         disabled={loading || !query.trim()}
-        className="flex items-center gap-2 rounded-lg bg-abyss-700 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-abyss-800 disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex items-center gap-2 rounded-lg bg-abyss-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-abyss-400 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -187,7 +187,7 @@ function StatsBar({
 }) {
   const { stats, validation_score } = verified;
   return (
-    <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-abyss-200 bg-white px-5 py-4 shadow-sm">
+    <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-abyss-600 bg-abyss-700 px-5 py-4 shadow-sm">
       <Stat label="Sources scanned" value={stats.sources_scanned.toString()} />
       <Divider />
       <Stat
@@ -202,10 +202,20 @@ function StatsBar({
       <Divider />
       <Stat label="Validation score" value={`${validation_score}%`} highlight />
       {cached ? (
-        <span className="ml-auto rounded-full bg-abyss-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-abyss-600">
-          Cached demo query
+        <span
+          className="ml-auto rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-emerald-300"
+          title="This query was previously run through the pipeline and the result was cached for demo-time reliability."
+        >
+          Pre-validated · cached
         </span>
-      ) : null}
+      ) : (
+        <span
+          className="ml-auto rounded-full border border-abyss-600 bg-abyss-900/60 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-abyss-300"
+          title="Live run through the DeepDelta pipeline against the clean-room knowledge base."
+        >
+          Live pipeline run
+        </span>
+      )}
     </div>
   );
 }
@@ -224,12 +234,12 @@ function Stat({
       <span
         className={clsx(
           "text-2xl font-semibold tracking-tight",
-          highlight ? "text-abyss-700" : "text-abyss-900"
+          highlight ? "text-abyss-100" : "text-abyss-50"
         )}
       >
         {value}
       </span>
-      <span className="text-xs uppercase tracking-wider text-abyss-500">
+      <span className="text-xs uppercase tracking-wider text-abyss-300">
         {label}
       </span>
     </div>
@@ -237,16 +247,16 @@ function Stat({
 }
 
 function Divider() {
-  return <span className="hidden h-8 w-px bg-abyss-100 sm:inline-block" />;
+  return <span className="hidden h-8 w-px bg-abyss-500 sm:inline-block" />;
 }
 
 /* ---------- Raw column ---------- */
 
 function RawColumn({ answer, model }: { answer: string; model: string }) {
   return (
-    <div className="rounded-xl border border-abyss-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-abyss-600 bg-abyss-700 p-6 shadow-sm">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-abyss-600">
+        <div className="flex items-center gap-2 text-abyss-200">
           <Sparkles className="h-4 w-4" />
           <h2 className="text-sm font-semibold uppercase tracking-wider">
             Raw LLM
@@ -254,8 +264,8 @@ function RawColumn({ answer, model }: { answer: string; model: string }) {
         </div>
         <span className="text-[10px] text-abyss-400">{model}</span>
       </div>
-      <p className="mt-4 text-abyss-800 leading-relaxed">{answer}</p>
-      <div className="mt-6 border-t border-dashed border-abyss-200 pt-3 text-xs text-abyss-500">
+      <p className="mt-4 text-abyss-50 leading-relaxed">{answer}</p>
+      <div className="mt-6 border-t border-dashed border-abyss-500 pt-3 text-xs text-abyss-300">
         No sources. No conflict detection. No recency check.
       </div>
     </div>
@@ -266,9 +276,9 @@ function RawColumn({ answer, model }: { answer: string; model: string }) {
 
 function VerifiedColumn({ verified }: { verified: VerifiedResponse }) {
   return (
-    <div className="rounded-xl border border-abyss-500/40 bg-white p-6 shadow-md ring-1 ring-abyss-500/10">
+    <div className="rounded-xl border border-abyss-400/50 bg-abyss-700 p-6 shadow-md ring-1 ring-abyss-400/20">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-abyss-700">
+        <div className="flex items-center gap-2 text-abyss-100">
           <ShieldCheck className="h-4 w-4" />
           <h2 className="text-sm font-semibold uppercase tracking-wider">
             DeepDelta verified
@@ -277,7 +287,7 @@ function VerifiedColumn({ verified }: { verified: VerifiedResponse }) {
         <ScoreChip score={verified.validation_score} />
       </div>
 
-      <p className="mt-4 text-abyss-900 leading-relaxed">
+      <p className="mt-4 text-abyss-50 leading-relaxed">
         {verified.synthesis}
       </p>
 
@@ -301,10 +311,10 @@ function VerifiedColumn({ verified }: { verified: VerifiedResponse }) {
 function ScoreChip({ score }: { score: number }) {
   const tone =
     score >= 80
-      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+      ? "bg-emerald-400/15 text-emerald-200 border-emerald-400/50"
       : score >= 60
-        ? "bg-kelp-400/10 text-kelp-600 border-kelp-400/40"
-        : "bg-coral-400/10 text-coral-600 border-coral-400/40";
+        ? "bg-kelp-400/15 text-kelp-200 border-kelp-400/50"
+        : "bg-coral-400/15 text-coral-200 border-coral-400/50";
   return (
     <span
       className={clsx(
@@ -327,10 +337,10 @@ function SectionHeader({
   count: number;
 }) {
   return (
-    <div className="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-abyss-600">
+    <div className="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-abyss-200">
       {icon}
       <span>{label}</span>
-      <span className="rounded-full bg-abyss-100 px-1.5 py-0.5 text-[10px] text-abyss-600">
+      <span className="rounded-full bg-abyss-500 px-1.5 py-0.5 text-[10px] text-abyss-50">
         {count}
       </span>
     </div>
@@ -349,16 +359,16 @@ function GapsSection({ gaps }: { gaps: Gap[] }) {
         {gaps.map((g, i) => (
           <li
             key={i}
-            className="rounded-lg border border-abyss-100 bg-abyss-50/40 p-3 text-sm text-abyss-800"
+            className="rounded-lg border border-abyss-600 bg-abyss-800 p-3 text-sm text-abyss-50"
           >
             <span
               className={clsx(
                 "mr-2 inline-block rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
                 g.impact === "high"
-                  ? "bg-coral-400/20 text-coral-600"
+                  ? "bg-coral-400/25 text-coral-200"
                   : g.impact === "medium"
-                    ? "bg-kelp-400/20 text-kelp-600"
-                    : "bg-abyss-100 text-abyss-600"
+                    ? "bg-kelp-400/25 text-kelp-200"
+                    : "bg-abyss-500 text-abyss-50"
               )}
             >
               {g.impact} impact
@@ -389,10 +399,10 @@ function ConflictsSection({
         {conflicts.map((c, i) => (
           <li
             key={i}
-            className="rounded-lg border border-kelp-400/30 bg-kelp-400/5 p-3 text-sm text-abyss-800"
+            className="rounded-lg border border-kelp-400/40 bg-kelp-400/10 p-3 text-sm text-abyss-50"
           >
-            <p className="font-medium text-abyss-900">{c.claim}</p>
-            <p className="mt-1 text-abyss-700">{c.explanation}</p>
+            <p className="font-medium text-abyss-50">{c.claim}</p>
+            <p className="mt-1 text-abyss-100">{c.explanation}</p>
             <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
               <SourceRefs
                 label="Supports"
@@ -432,23 +442,23 @@ function DecaySection({
         {decay.map((d, i) => (
           <li
             key={i}
-            className="rounded-lg border border-coral-400/30 bg-coral-400/5 p-3 text-sm text-abyss-800"
+            className="rounded-lg border border-coral-400/40 bg-coral-400/10 p-3 text-sm text-abyss-50"
           >
             <div className="flex items-center gap-2">
-              <span className="rounded bg-coral-400/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-coral-600">
+              <span className="rounded bg-coral-400/25 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-coral-200">
                 Stale
               </span>
-              <span className="text-abyss-700 line-through decoration-coral-500/60">
+              <span className="text-abyss-100 line-through decoration-coral-500/60">
                 {d.outdated_claim}
               </span>
             </div>
             <div className="mt-1 flex items-start gap-2">
-              <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
+              <span className="rounded bg-emerald-400/25 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-200">
                 Current
               </span>
-              <span className="text-abyss-900">
+              <span className="text-abyss-50">
                 {d.current_claim}{" "}
-                <span className="text-xs text-abyss-500">
+                <span className="text-xs text-abyss-300">
                   (as of {d.as_of_year})
                 </span>
               </span>
@@ -488,11 +498,11 @@ function SourceRefs({
   if (!ids.length) return null;
   const palette =
     tone === "emerald"
-      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-      : "bg-coral-400/10 text-coral-600 border-coral-400/30";
+      ? "bg-emerald-400/15 text-emerald-200 border-emerald-400/50"
+      : "bg-coral-400/15 text-coral-200 border-coral-400/50";
   return (
     <span className="inline-flex items-center gap-1">
-      <span className="text-abyss-500">{label}:</span>
+      <span className="text-abyss-300">{label}:</span>
       {ids.map((id) => {
         const s = sources.find((src) => src.id === id);
         const tag = s
@@ -524,26 +534,26 @@ function ScoreBreakdownSection({ verified }: { verified: VerifiedResponse }) {
     { label: "Self-confidence", value: b.self_confidence },
   ];
   return (
-    <div className="mt-6 rounded-lg border border-abyss-100 bg-abyss-50/40 p-3">
+    <div className="mt-6 rounded-lg border border-abyss-600 bg-abyss-800 p-3">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-abyss-600">
+        <span className="text-xs font-semibold uppercase tracking-wider text-abyss-200">
           Validation score breakdown
         </span>
-        <span className="text-xs font-medium text-abyss-700">
+        <span className="text-xs font-medium text-abyss-100">
           {validation_score}/100
         </span>
       </div>
       <div className="mt-3 space-y-2">
         {bars.map((bar) => (
           <div key={bar.label} className="flex items-center gap-3">
-            <span className="w-36 text-xs text-abyss-600">{bar.label}</span>
-            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-abyss-100">
+            <span className="w-36 text-xs text-abyss-200">{bar.label}</span>
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-abyss-900">
               <div
-                className="h-full bg-abyss-500"
+                className="h-full bg-abyss-200"
                 style={{ width: `${Math.round(bar.value * 100)}%` }}
               />
             </div>
-            <span className="w-10 text-right text-xs tabular-nums text-abyss-700">
+            <span className="w-10 text-right text-xs tabular-nums text-abyss-100">
               {Math.round(bar.value * 100)}%
             </span>
           </div>
@@ -565,14 +575,14 @@ function SourcesSection({ sources }: { sources: Source[] }) {
         {sources.map((s) => (
           <li
             key={s.id}
-            className="rounded-lg border border-abyss-100 bg-white p-3"
+            className="rounded-lg border border-abyss-600 bg-abyss-800 p-3"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-sm font-medium text-abyss-900">
+                <p className="text-sm font-medium text-abyss-50">
                   {s.title}
                 </p>
-                <p className="mt-0.5 text-xs text-abyss-600">
+                <p className="mt-0.5 text-xs text-abyss-200">
                   {s.publisher} · {s.year}
                 </p>
               </div>
@@ -581,13 +591,13 @@ function SourcesSection({ sources }: { sources: Source[] }) {
                   href={s.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex shrink-0 items-center gap-1 text-xs text-abyss-500 hover:text-abyss-700"
+                  className="flex shrink-0 items-center gap-1 text-xs text-abyss-300 hover:text-abyss-50"
                 >
                   Open <ExternalLink className="h-3 w-3" />
                 </a>
               ) : null}
             </div>
-            <p className="mt-2 text-xs text-abyss-700 leading-relaxed">
+            <p className="mt-2 text-xs text-abyss-100 leading-relaxed">
               &ldquo;{s.snippet}&rdquo;
             </p>
           </li>
@@ -633,22 +643,22 @@ function PreviewCard({
       className={clsx(
         "rounded-xl border p-6 shadow-sm",
         muted
-          ? "border-abyss-200 bg-white/60"
-          : "border-abyss-500/30 bg-white ring-1 ring-abyss-500/10"
+          ? "border-abyss-600 bg-abyss-700"
+          : "border-abyss-400/50 bg-abyss-700 ring-1 ring-abyss-400/20"
       )}
     >
-      <h3 className="text-sm font-semibold uppercase tracking-wider text-abyss-600">
+      <h3 className="text-sm font-semibold uppercase tracking-wider text-abyss-200">
         {title}
       </h3>
-      <p className="mt-1 text-xs text-abyss-500">{subtitle}</p>
-      <p className="mt-4 text-sm text-abyss-700">{body}</p>
+      <p className="mt-1 text-xs text-abyss-300">{subtitle}</p>
+      <p className="mt-4 text-sm text-abyss-100">{body}</p>
     </div>
   );
 }
 
 function LoadingState() {
   return (
-    <div className="mt-10 flex items-center justify-center gap-3 rounded-xl border border-abyss-200 bg-white/60 p-8 text-abyss-600">
+    <div className="mt-10 flex items-center justify-center gap-3 rounded-xl border border-abyss-600 bg-abyss-700 p-8 text-abyss-100">
       <Loader2 className="h-5 w-5 animate-spin" />
       Scanning knowledge base…
     </div>
@@ -659,7 +669,7 @@ function LoadingState() {
 
 function Footer() {
   return (
-    <footer className="mt-16 border-t border-abyss-200 pt-6 text-xs text-abyss-500">
+    <footer className="mt-16 border-t border-abyss-700 pt-6 text-xs text-abyss-300">
       <p>
         DeepDelta is a 24-hour hackathon build inspired by the Human Delta
         playbook: <em>surface</em> gaps, conflicts, and decay ·{" "}
