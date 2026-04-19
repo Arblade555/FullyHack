@@ -1,0 +1,57 @@
+{
+  "$schema_note": "Each source is a Source object (see lib/types.ts). 'snippet' is a short excerpt (1–3 sentences) that contains the factual claim we care about. Keep snippets verbatim-ish; they will be shown in the UI and passed verbatim to the LLM judge.",
+  "sources": [
+    {
+      "id": "src-wiki-marianas-snailfish",
+      "title": "Mariana snailfish — Wikipedia (2018 snapshot)",
+      "publisher": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mariana_snailfish",
+      "year": 2018,
+      "tags": ["snailfish", "record-holder", "pacific"],
+      "snippet": "Pseudoliparis swirei was described from specimens collected in the Mariana Trench at depths of 7,000–8,178 m, making it the deepest-living fish ever recorded."
+    },
+    {
+      "id": "src-noaa-ocean-2020",
+      "title": "NOAA Ocean Exploration: Life in the Hadal Zone",
+      "publisher": "NOAA Office of Ocean Exploration and Research",
+      "url": "https://oceanexplorer.noaa.gov/",
+      "year": 2020,
+      "tags": ["hadal", "record-holder", "pacific"],
+      "snippet": "The Mariana snailfish holds the current depth record for fish, observed at 8,178 meters in 2014 by a joint University of Hawaii / University of Aberdeen expedition."
+    },
+    {
+      "id": "src-uwa-2023-pr",
+      "title": "Deepest fish ever filmed at 8,336 m — University of Western Australia",
+      "publisher": "University of Western Australia (press release)",
+      "url": "https://www.uwa.edu.au/news",
+      "year": 2023,
+      "tags": ["snailfish", "record-holder", "breaking"],
+      "snippet": "Scientists from the Minderoo-UWA Deep Sea Research Centre and Tokyo University of Marine Science and Technology have filmed a snailfish at 8,336 m in the Izu-Ogasawara Trench — the deepest fish ever recorded."
+    },
+    {
+      "id": "src-nature-news-2023",
+      "title": "Snailfish breaks depth record in trench off Japan",
+      "publisher": "Nature News",
+      "url": "https://www.nature.com/articles/",
+      "year": 2023,
+      "tags": ["snailfish", "record-holder"],
+      "snippet": "Footage from an autonomous lander in the Izu-Ogasawara Trench shows a juvenile Pseudoliparis at 8,336 metres, 158 m deeper than the previous record-holder."
+    },
+    {
+      "id": "src-textbook-oceanography-2005",
+      "title": "Intro to Oceanography, 5th ed. (chapter excerpt)",
+      "publisher": "Academic textbook",
+      "year": 2005,
+      "tags": ["textbook", "arctic", "vents"],
+      "snippet": "To date, hydrothermal venting has not been directly observed on the ultraslow Gakkel Ridge beneath the Arctic ice pack."
+    },
+    {
+      "id": "src-awi-gakkel-2008",
+      "title": "First visual observation of vents on the Gakkel Ridge",
+      "publisher": "Alfred Wegener Institute",
+      "year": 2008,
+      "tags": ["gakkel", "discovery", "arctic"],
+      "snippet": "Camera-lander imagery from the 2007 AGAVE expedition confirmed active black-smoker venting on the Gakkel Ridge axis at 85°N."
+    }
+  ]
+}

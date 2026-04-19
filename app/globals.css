@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Deep-sea dark mode — evokes actual abyss depth rather than a brochure. */
+  --background: 3 11 24;      /* abyss-950 */
+  --foreground: 230 238 248;  /* near-white with a cool tint */
+}
+
+html, body {
+  background: rgb(var(--background));
+  color: rgb(var(--foreground));
+  font-feature-settings: "cv11", "ss01", "ss03";
+}
+
+/* Subtle depth gradient: darker at the bottom, as if descending. */
+body {
+  background: linear-gradient(180deg, #07172b 0%, #030b18 100%);
+  min-height: 100vh;
+}
