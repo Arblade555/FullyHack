@@ -367,6 +367,6 @@ export function matchGoldenQuery(query: string): ScanResult | null {
 
 export const SUGGESTED_QUERIES = [
   "What is the deepest fish ever recorded?",
-  "Are there hydrothermal vents under Arctic ice?",
-  "What organisms live near hydrothermal vents?",
+  "When were hydrothermal vents first observed on the Gakkel Ridge?",
+  "What's the deepest octopus ever filmed?",
 ];

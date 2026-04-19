@@ -46,6 +46,7 @@ export function hasHumanDeltaKey(): boolean {
 // pulled in noise (Ricky Williams, Prince William, etc.); we filter those out
 // at the retrieval layer rather than trying to delete them from HD's /source.
 const ALLOWED_SLUGS = new Set<string>([
+  // Original 8 (records / vents / zones)
   "abyssal_zone",
   "bioluminescence",
   "challenger_deep",
@@ -54,6 +55,36 @@ const ALLOWED_SLUGS = new Set<string>([
   "hadal_zone",
   "hydrothermal_vent",
   "pseudoliparis_swirei", // Mariana snailfish redirects here
+
+  // Organisms & biology
+  "sea_cucumber",
+  "anglerfish",
+  "giant_squid",
+  "tube_worm",
+  "vampire_squid",
+
+  // Geography & features
+  "mariana_trench",
+  // Izu-Ogasawara Trench URL uses an en-dash — the crawler writes it as a
+  // percent-encoded filename. After index:corpus completes, verify the exact
+  // slug via `tree /source -L 4` (check:corpus) and adjust this line if the
+  // crawler produced something different (e.g. izu-ogasawara_trench or
+  // izu%e2%80%93ogasawara_trench).
+  "izu%e2%80%93ogasawara_trench",
+  "mid-atlantic_ridge",
+  "cold_seep",
+
+  // Exploration & tech
+  "dsv_alvin",
+  "challenger_expedition",
+
+  // Ecology & phenomena
+  "whale_fall",
+  "chemosynthesis",
+  "marine_snow",
+
+  // Zones
+  "mesopelagic_zone",
 ]);
 
 const CORPUS_DIR = "/source/website/en.wikipedia.org";

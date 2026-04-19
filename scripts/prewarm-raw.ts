@@ -41,7 +41,7 @@ function loadDotEnv() {
 const DEMO_QUERIES = [
   "What is the deepest fish ever recorded?",
   "When were hydrothermal vents first observed on the Gakkel Ridge?",
-  "Where do giant cucumbers live?",
+  "What's the deepest octopus ever filmed?",
 ];
 
 const CACHE_PATH = path.resolve(process.cwd(), ".cache", "raw-answers.json");

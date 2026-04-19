@@ -32,6 +32,7 @@ function loadDotEnv() {
 }
 
 const SEED_URLS: Array<{ url: string; name: string; maxPages?: number }> = [
+  // ——— Original seed set (records / vents / zones) ———
   { url: "https://en.wikipedia.org/wiki/Mariana_snailfish", name: "Wiki: Mariana snailfish", maxPages: 5 },
   { url: "https://en.wikipedia.org/wiki/Hadal_zone", name: "Wiki: Hadal zone", maxPages: 5 },
   { url: "https://en.wikipedia.org/wiki/Hydrothermal_vent", name: "Wiki: Hydrothermal vent", maxPages: 10 },
@@ -40,6 +41,36 @@ const SEED_URLS: Array<{ url: string; name: string; maxPages?: number }> = [
   { url: "https://en.wikipedia.org/wiki/Deep_sea", name: "Wiki: Deep sea", maxPages: 10 },
   { url: "https://en.wikipedia.org/wiki/Bioluminescence", name: "Wiki: Bioluminescence", maxPages: 5 },
   { url: "https://en.wikipedia.org/wiki/Abyssal_zone", name: "Wiki: Abyssal zone", maxPages: 5 },
+
+  // ——— Organisms & biology ———
+  // Sea cucumber: demo-relevant — gives the judge a real source to explain
+  // what's retrievable for the "giant cucumber" gap query.
+  { url: "https://en.wikipedia.org/wiki/Sea_cucumber", name: "Wiki: Sea cucumber", maxPages: 10 },
+  { url: "https://en.wikipedia.org/wiki/Anglerfish", name: "Wiki: Anglerfish", maxPages: 10 },
+  { url: "https://en.wikipedia.org/wiki/Giant_squid", name: "Wiki: Giant squid", maxPages: 10 },
+  { url: "https://en.wikipedia.org/wiki/Tube_worm", name: "Wiki: Tube worm", maxPages: 5 },
+  { url: "https://en.wikipedia.org/wiki/Vampire_squid", name: "Wiki: Vampire squid", maxPages: 5 },
+
+  // ——— Geography & features ———
+  { url: "https://en.wikipedia.org/wiki/Mariana_Trench", name: "Wiki: Mariana Trench", maxPages: 10 },
+  // Izu-Ogasawara Trench: demo-relevant — supports the 2023 deepest-fish
+  // record (8,336 m) cited in the "deepest fish" query. URL uses an en-dash
+  // (%E2%80%93), which is the canonical Wikipedia page title.
+  { url: "https://en.wikipedia.org/wiki/Izu%E2%80%93Ogasawara_Trench", name: "Wiki: Izu-Ogasawara Trench", maxPages: 5 },
+  { url: "https://en.wikipedia.org/wiki/Mid-Atlantic_Ridge", name: "Wiki: Mid-Atlantic Ridge", maxPages: 10 },
+  { url: "https://en.wikipedia.org/wiki/Cold_seep", name: "Wiki: Cold seep", maxPages: 5 },
+
+  // ——— Exploration & tech ———
+  { url: "https://en.wikipedia.org/wiki/DSV_Alvin", name: "Wiki: DSV Alvin", maxPages: 5 },
+  { url: "https://en.wikipedia.org/wiki/Challenger_expedition", name: "Wiki: Challenger expedition", maxPages: 10 },
+
+  // ——— Ecology & phenomena ———
+  { url: "https://en.wikipedia.org/wiki/Whale_fall", name: "Wiki: Whale fall", maxPages: 5 },
+  { url: "https://en.wikipedia.org/wiki/Chemosynthesis", name: "Wiki: Chemosynthesis", maxPages: 5 },
+  { url: "https://en.wikipedia.org/wiki/Marine_snow", name: "Wiki: Marine snow", maxPages: 5 },
+
+  // ——— Zones ———
+  { url: "https://en.wikipedia.org/wiki/Mesopelagic_zone", name: "Wiki: Mesopelagic zone", maxPages: 5 },
 ];
 
 async function main() {

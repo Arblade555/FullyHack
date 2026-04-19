@@ -102,7 +102,7 @@ async function main() {
   const demoProbes = [
     "What's the deepest fish ever recorded?",
     "When were hydrothermal vents first observed on the Gakkel Ridge?",
-    "Where do giant cucumbers live?",
+    "What's the deepest octopus ever filmed?",
   ];
   for (const probe of demoProbes) {
     console.log(`\n—— fs-retrieval probe: "${probe}" ——`);
