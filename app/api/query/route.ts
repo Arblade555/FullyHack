@@ -14,6 +14,8 @@ import {
 } from "@/lib/score";
 import type { RawAnswer, ScanResult, Source } from "@/lib/types";
 
+export const maxDuration = 60;
+
 /**
  * Retrieval dispatch. Default path hits Human Delta. If the HD key is not
  * configured we fall through to the static keyword-scored corpus so the
