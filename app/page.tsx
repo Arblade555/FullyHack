@@ -115,11 +115,11 @@ function Header() {
         <Waves className="h-5 w-5" />
         <span className="text-sm font-semibold tracking-wide">DEEPDELTA</span>
         <span className="ml-2 rounded-full bg-abyss-700 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-abyss-200">
-          Hackathon build
+          FullyHacks build
         </span>
       </div>
       <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-abyss-50 sm:text-4xl">
-        Launch AI you can trust — for deep-sea knowledge.
+        Launch AI you can trust for deep-sea knowledge.
       </h1>
       <p className="mt-3 max-w-2xl text-abyss-100">
         A verification layer that exposes the{" "}
@@ -760,7 +760,7 @@ function Footer() {
   return (
     <footer className="mt-16 border-t border-abyss-700 pt-6 text-xs text-abyss-300">
       <p>
-        DeepDelta is a 24-hour hackathon build inspired by the Human Delta
+        DeepDelta is a FullyHacks build inspired by the Human Delta
         playbook: <em>surface</em> gaps, conflicts, and decay ·{" "}
         <em>structure</em> messy human knowledge into AI-ready form ·{" "}
         <em>learn</em> as the corpus grows. Corpus and outputs are illustrative.

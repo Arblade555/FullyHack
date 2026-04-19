@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DeepDelta — Launch AI You Can Trust, for Deep-Sea Knowledge",
+  title: "DeepDelta: Launch AI You Can Trust, for Deep-Sea Knowledge",
   description:
     "A verification layer that exposes the gaps, conflicts, and decay in AI answers about the deep sea. Built on the Human Delta playbook.",
 };

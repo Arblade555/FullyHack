@@ -26,21 +26,21 @@ Deck: `deepdelta-demo.pptx` (3 slides, 16:9)
 >
 > Let me show you three queries we just ran.
 
-Pause. Click to slide 3 briefly to flash the 87/78/55 grid. Flip back.
+Pause. Click to slide 3 briefly to flash the 87/78/19 grid. Flip back.
 
-### 0:15 — 0:38 · Test 3 first (cucumber — the gap) · LIVE in browser
+### 0:15 — 0:38 · Test 3 first (octopus — the gap) · LIVE in browser
 
-Type into DeepDelta: **"Where do giant cucumbers live?"**
+Type into DeepDelta: **"What's the deepest octopus ever filmed?"**
 
-> This one is a trap. There are no giant cucumbers in our corpus. The tangential hits are just "sea cucumber" mentions inside unrelated deep-sea articles.
+> This one is a trap. There are no octopus pages in our corpus — the nearest hits are giant squid and vampire squid, which are cephalopods but not octopuses. So the retrieval has shape but no answer.
 
 Let the answer render. Gesture at the left column first.
 
-> Look at the left side. Claude, GPT-4o, and Gemini all confidently answer. None of them flag that the question is unanswerable. That's the failure mode every frontier LLM shares.
+> Look at the left side. Claude, GPT-4o, and Gemini all confidently name a depth record. None of them flag that the question can't be answered from what we actually retrieved. That's the failure mode every frontier LLM shares.
 
 Now point at the score.
 
-> **55%.** Down from the 80s on the other queries. Agreement dropped to 50, self-confidence to 30, and the system raised a high-impact gap: "no source defines giant cucumbers as a species." It didn't fabricate. That's the whole point.
+> **19%.** Collapsed from the 80s on the other queries. Source agreement zero, direct evidence zero — the judge refused to validate. It raised a high-impact gap: "no source describes depth records for any octopus species." It didn't fabricate. That's the whole point.
 
 ### 0:35 — 0:58 · Test 2 (Gakkel Ridge — live HD) · LIVE in browser
 
@@ -78,7 +78,7 @@ Flip to slide 2.
 
 Flip to slide 3.
 
-> Anyone can build RAG on a vector DB. We built it on a filesystem you can actually inspect. And we built a judge that's willing to say *I don't know* at 55% — which is the part everyone skips.
+> Anyone can build RAG on a vector DB. We built it on a filesystem you can actually inspect. And we built a judge that's willing to collapse to 19% and say *I don't know* — which is the part everyone skips.
 >
 > DeepDelta. Thanks.
 
@@ -99,7 +99,7 @@ Flip to slide 3.
 > HD's index jobs are tracked by name and status. Re-seeding is idempotent — existing completed/running jobs are skipped. A refreshed crawl would produce new files under `/source/`, and the next retrieval picks them up because we don't cache beyond the current Node process.
 
 **"How do you handle adversarial queries?"**
-> Same pipeline. The cucumber query is the proof — no special branch, no hard-coded refusal. The judge just returns a low score because the sources don't directly support the answer.
+> Same pipeline. The octopus query is the proof — no special branch, no hard-coded refusal. The judge just returns a low score because the retrieved sources (giant squid, vampire squid) don't directly support an octopus-depth answer.
 
 **"What happens if one of the raw models is down?"**
 > Each provider call is independent and errors are caught per-provider. A failed provider renders as a dimmed "Unavailable" card with a calm reason — rate-limited, auth, timeout, etc. — and the rest of the pipeline continues. The verified column is unaffected because it runs through Claude with retrieval, which is a separate call path. So the demo degrades gracefully instead of crashing.
